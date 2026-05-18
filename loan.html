@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uneedloan Pre-Qualification Form</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #111111;
+      color: #ffffff;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 40px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 760px;
+      background: #242421;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 34px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 8px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 34px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 25%;
+      background: #1A73E8;
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.62);
+      margin: 10px 0 30px;
+      line-height: 1.6;
+    }
+
+    .field {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 9px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .required {
+      color: #9b00ff;
+      margin-left: 4px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #2e2e2a;
+      color: #ffffff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #1A73E8;
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.18);
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .currency-wrap {
+      position: relative;
+    }
+
+    .currency-wrap span {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.45);
+    }
+
+    .currency-wrap input {
+      padding-left: 32px;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .radio-row {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.82);
+      cursor: pointer;
+    }
+
+    .radio-option input {
+      width: auto;
+      accent-color: #1A73E8;
+    }
+
+    .divider {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 28px 0 22px;
+      padding-top: 22px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .panel {
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .helper {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .error {
+      color: #ff6b6b;
+      font-size: 13px;
+      margin-top: 7px;
+      display: none;
+    }
+
+    .checkbox-box {
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.72);
+      margin: 0;
+      font-weight: 400;
+    }
+
+    .checkbox-label input {
+      width: auto;
+      margin-top: 5px;
+      accent-color: #1A73E8;
+    }
+
+    .footer-buttons {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 34px;
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    button,
+    .call-button {
+      border: none;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 15px;
+      border-radius: 12px;
+      padding: 14px 22px;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .primary-btn {
+      background: #1A73E8;
+      color: #ffffff;
+      box-shadow: 0 10px 25px rgba(26,115,232,0.25);
+    }
+
+    .primary-btn:hover {
+      background: #1766ce;
+    }
+
+    .outline-btn {
+      background: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .outline-btn:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .result-box {
+      background: #ecf8ff;
+      color: #111111;
+      border-radius: 20px;
+      padding: 34px;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .result-icon {
+      width: 66px;
+      height: 66px;
+      border-radius: 999px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      color: #1A73E8;
+      font-size: 34px;
+      font-weight: 900;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .result-title {
+      font-size: 31px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .green {
+      color: #25a244;
+    }
+
+    .orange {
+      color: #f59e0b;
+    }
+
+    .result-message {
+      color: rgba(0,0,0,0.68);
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto 28px;
+    }
+
+    .contact-card {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: left;
+      max-width: 520px;
+      margin: 0 auto;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+    }
+
+    .contact-card h3 {
+      margin: 0 0 12px;
+    }
+
+    .contact-card p {
+      margin: 8px 0;
+      color: rgba(0,0,0,0.7);
+      font-size: 14px;
+    }
+
+    .info-box {
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .info-box h3 {
+      margin: 0 0 14px;
+      font-size: 20px;
+    }
+
+    .info-box ul {
+      margin: 0;
+      padding-left: 22px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.8;
+    }
+
+    .gaps-box {
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .gaps-box h3 {
+      color: #fbbf24;
+      margin: 0 0 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .stat small {
+      color: rgba(255,255,255,0.42);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 700px) {
+      .form-card {
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
+      .grid-3,
+      .grid-2,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-buttons {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+
+      button,
+      .call-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="form-card">
+      <div class="top-row">
+        <span>Uneedloan Pre-Qualification</span>
+        <span id="stepCounter">Step 1 of 4</span>
+      </div>
+
+      <div class="progress">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <form id="loanForm">
+        <!-- STEP 1 -->
+        <section class="step active" data-step="1">
+          <h1>Loan Details, Industry & Contact</h1>
+          <p class="subtitle">
+            Tell us what you’re looking for and how Monica or our team can reach you.
+          </p>
+
+          <div class="field">
+            <label>How much are you looking to borrow?<span class="required">*</span></label>
+            <div class="currency-wrap">
+              <span>$</span>
+              <input id="loanAmount" type="text" placeholder="250,000" />
+            </div>
+            <div class="error" id="loanAmountError">Loan amount is required.</div>
+          </div>
+
+          <div class="field">
+            <label>Purpose of the loan<span class="required">*</span></label>
+            <select id="loanPurpose">
+              <option value="">Select one</option>
+              <option value="Growth / working capital">Growth / working capital</option>
+              <option value="Expansion">Expansion</option>
+              <option value="Equipment / inventory">Equipment / inventory</option>
+              <option value="Real estate">Real estate</option>
+              <option value="Bridge financing">Bridge financing</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="error" id="loanPurposeError">Loan purpose is required.</div>
+          </div>
+
+          <div class="field">
+            <label>Business industry<span class="required">*</span></label>
+            <select id="industry">
+              <option value="">Select one</option>
+              <option value="Salon / Spa / Med-Spa">Salon / Spa / Med-Spa</option>
+              <option value="Restaurant / Coffee / Bakery">Restaurant / Coffee / Bakery</option>
+              <option value="Contractors / Trades">Contractors / Trades</option>
+              <option value="Health & Wellness">Health & Wellness</option>
+              <option value="Tech / Startup">Tech / Startup</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="error" id="industryError">Business industry is required.</div>
+          </div>
+
+          <div class="field">
+            <label>When do you need the funds?<span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option"><input type="radio" name="fundingTimeline" value="This week"> This week</label>
+              <label class="radio-option"><input type="radio" name="fundingTimeline" value="1 month"> 1 month</label>
+              <label class="radio-option"><input type="radio" name="fundingTimeline" value="3 months"> 3 months</label>
+              <label class="radio-option"><input type="radio" name="fundingTimeline" value="Flexible"> Flexible</label>
+            </div>
+            <div class="error" id="fundingTimelineError">Funding timeline is required.</div>
+          </div>
+
+          <div class="divider">
+            <div class="section-title">Contact Information</div>
+
+            <div class="field">
+              <input id="fullName" type="text" placeholder="Full name" />
+              <div class="error" id="fullNameError">Full name is required.</div>
+            </div>
+
+            <div class="field">
+              <input id="email" type="email" placeholder="Email address" />
+              <div class="error" id="emailError">Valid email is required.</div>
+            </div>
+
+            <div class="field">
+              <input id="phone" type="text" placeholder="Phone number (XXX) XXX-XXXX" />
+              <div class="error" id="phoneError">Valid 10-digit phone is required.</div>
+            </div>
+
+            <div class="field">
+              <input id="streetAddress" type="text" placeholder="Street address" />
+              <div class="error" id="streetAddressError">Street address is required.</div>
+            </div>
+
+            <div class="grid-3">
+              <div class="field">
+                <input id="city" type="text" placeholder="City" />
+                <div class="error" id="cityError">City is required.</div>
+              </div>
+
+              <div class="field">
+                <input id="state" type="text" placeholder="State" />
+                <div class="error" id="stateError">State is required.</div>
+              </div>
+
+              <div class="field">
+                <input id="zip" type="text" placeholder="Zip" />
+                <div class="error" id="zipError">Zip is required.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-buttons">
+            <span></span>
+            <button type="button" class="primary-btn" onclick="nextStep()">Continue</button>
+          </div>
+        </section>
+
+        <!-- STEP 2 -->
+        <section class="step" data-step="2">
+          <h1>Personal Credit & Income</h1>
+          <p class="subtitle">
+            Help us understand your credit profile and financial situation.
+          </p>
+
+          <div class="field">
+            <label>What’s your estimated credit score?<span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option"><input type="radio" name="creditScore" value="700 or higher"> 700 or higher</label>
+              <label class="radio-option"><input type="radio" name="creditScore" value="680-699"> 680-699</label>
+              <label class="radio-option"><input type="radio" name="creditScore" value="Below 680"> Below 680</label>
+            </div>
+            <div class="error" id="creditScoreError">Estimated credit score is required.</div>
+          </div>
+
+          <div class="field">
+            <label>Active credit cards or tradelines<span class="required">*</span></label>
+            <input id="tradelines" type="number" placeholder="e.g., 3" />
+            <p class="helper">Include credit cards, auto loans, mortgages, etc.</p>
+            <div class="error" id="tradelinesError">Number of tradelines is required.</div>
+          </div>
+
+          <div class="field">
+            <label>How long have you had credit?<span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-option"><input type="radio" name="creditHistory" value="10+ years"> 10+ years</label>
+              <label class="radio-option"><input type="radio" name="creditHistory" value="5-10 years"> 5-10 years</label>
+              <label class="radio-option"><input type="radio" name="creditHistory" value="Under 5 years"> Under 5 years</label>
+            </div>
+            <div class="error" id="creditHistoryError">Credit history is required.</div>
+          </div>
+
+          <div class="field">
+            <label>Any late payments in the last 2 years?<span class="required">*</span></label>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="latePayments" value="No"> No</label>
+              <label class="radio-option"><input type="radio" name="latePayments" value="Yes"> Yes</label>
+            </div>
+            <div class="error" id="latePaymentsError">Please select yes or no.</div>
+          </div>
+
+          <div class="field">
+            <label>Bankruptcy or foreclosure on record?<span class="required">*</span></label>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="bankruptcy" value="No"> No</label>
+              <label class="radio-option"><input type="radio" name="bankruptcy" value="Yes"> Yes</label>
+            </div>
+            <div class="error" id="bankruptcyError">Please select yes or no.</div>
+          </div>
+
+          <div class="divider">
+            <div class="field">
+              <label>Annual personal income, if any</label>
+              <div class="currency-wrap">
+                <span>$</span>
+                <input id="personalIncome" type="text" placeholder="75,000" />
+              </div>
+              <p class="helper">Optional if you have strong business revenue.</p>
+            </div>
+          </div>
+
+          <div class="footer-buttons">
+            <button type="button" class="outline-btn" onclick="previousStep()">Back</button>
+            <button type="button" class="primary-btn" onclick="nextStep()">Continue</button>
+          </div>
+        </section>
+
+        <!-- STEP 3 -->
+        <section class="step" data-step="3">
+          <h1>Business Information & Financials</h1>
+          <p class="subtitle">
+            Tell us about your business and financial performance.
+          </p>
+
+          <div class="panel">
+            <div class="panel-title">Business Details</div>
+
+            <div class="field">
+              <input id="businessName" type="text" placeholder="Business name" />
+              <div class="error" id="businessNameError">Business name is required.</div>
+            </div>
+
+            <div class="field">
+              <input id="businessType" type="text" placeholder="Type of business, e.g., Construction, Retail" />
+              <div class="error" id="businessTypeError">Business type is required.</div>
+            </div>
+
+            <div class="field">
+              <input id="yearsInBusiness" type="number" placeholder="Years in business" />
+              <div class="error" id="yearsInBusinessError">Years in business is required.</div>
+            </div>
+
+            <div class="field">
+              <select id="businessStructure">
+                <option value="">Business structure</option>
+                <option value="Sole Prop">Sole Prop</option>
+                <option value="LLC">LLC</option>
+                <option value="S-Corp">S-Corp</option>
+                <option value="C-Corp">C-Corp</option>
+                <option value="Partnership">Partnership</option>
+              </select>
+              <div class="error" id="businessStructureError">Business structure is required.</div>
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <input id="numberOfOwners" type="number" placeholder="# of owners" />
+                <div class="error" id="numberOfOwnersError">Number of owners is required.</div>
+              </div>
+
+              <div class="field">
+                <input id="ownershipPercentage" type="number" placeholder="Your ownership %" />
+                <div class="error" id="ownershipPercentageError">Ownership percentage is required.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Financial Performance Last Year</div>
+
+            <div class="field">
+              <div class="currency-wrap">
+                <span>$</span>
+                <input id="grossAnnualRevenue" type="text" placeholder="Gross annual revenue" />
+              </div>
+              <div class="error" id="grossAnnualRevenueError">Gross annual revenue is required.</div>
+            </div>
+
+            <div class="field">
+              <div class="currency-wrap">
+                <span>$</span>
+                <input id="netProfit" type="text" placeholder="Net profit after expenses" />
+              </div>
+              <div class="error" id="netProfitError">Net profit is required.</div>
+            </div>
+
+            <div class="field">
+              <input id="netProfitMargin" type="number" placeholder="Net profit margin %" />
+              <p class="helper">Auto-calculated: Net profit ÷ Revenue × 100</p>
+              <div class="error" id="netProfitMarginError">Net profit margin is required.</div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Monthly Debt Obligations</div>
+
+            <div class="field">
+              <label>Business loan payments monthly</label>
+              <div class="currency-wrap">
+                <span>$</span>
+                <input id="monthlyBusinessLoanPayments" type="text" placeholder="0" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Line of credit balance</label>
+              <div class="currency-wrap">
+                <span>$</span>
+                <input id="businessLineOfCreditBalance" type="text" placeholder="0" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Equipment financing?</label>
+              <div class="radio-row">
+                <label class="radio-option"><input type="radio" name="equipmentFinancing" value="No"> No</label>
+                <label class="radio-option"><input type="radio" name="equipmentFinancing" value="Yes"> Yes</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Monthly mortgage / rent for location</label>
+              <div class="currency-wrap">
+                <span>$</span>
+                <input id="monthlyMortgageRent" type="text" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="checkbox-box">
+            <label class="checkbox-label">
+              <input id="consent" type="checkbox" />
+              <span>
+                I agree to Uneedloan's Terms of Service and Privacy Policy.
+                I understand Uneedloan will contact me about my pre-qualification status.
+                This pre-qualification does not pull credit.
+              </span>
+            </label>
+            <div class="error" id="consentError">Consent is required before reviewing results.</div>
+          </div>
+
+          <div class="footer-buttons">
+            <button type="button" class="outline-btn" onclick="previousStep()">Back</button>
+            <button type="button" class="primary-btn" onclick="nextStep()">Review Results</button>
+          </div>
+        </section>
+
+        <!-- STEP 4 -->
+        <section class="step" data-step="4">
+          <h1>Results & Next Steps</h1>
+          <p class="subtitle">
+            Your pre-qualification has been reviewed instantly. Monica can help with the next step.
+          </p>
+
+          <div class="result-box">
+            <div class="result-icon" id="resultIcon">✓</div>
+            <div class="result-title green" id="resultTitle">You're Pre-Qualified!</div>
+            <p class="result-message" id="resultMessage">
+              Great news! You qualify for our lending programs. Monica or a consultant will reach out within 24 hours to discuss your options.
+            </p>
+
+            <div class="contact-card">
+              <h3>Contact Information</h3>
+              <p><strong>Call:</strong> (407)-305-4009</p>
+              <p><strong>Email:</strong> uneedloan@gmail.com</p>
+              <p><strong>Applicant:</strong> <span id="reviewName"></span></p>
+              <p><strong>Phone:</strong> <span id="reviewPhone"></span></p>
+              <p><strong>Email:</strong> <span id="reviewEmail"></span></p>
+              <p style="text-align:center; font-size:12px; color:rgba(0,0,0,0.45);">Mon-Fri 9am-5pm EST</p>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <h3>What happens next?</h3>
+            <ul>
+              <li>Within 24 hours, Monica or a consultant reaches out by phone or email.</li>
+              <li>We review your options and customize a loan program for your situation.</li>
+              <li>Full application happens after pre-qualification. This form does not pull credit.</li>
+              <li>Funding can close in 7-10 days once approved.</li>
+            </ul>
+          </div>
+
+          <div class="gaps-box" id="gapsBox">
+            <h3>Items Monica may review with you</h3>
+            <ul id="gapsList"></ul>
+          </div>
+
+          <div class="info-box">
+            <h3>Quick Review</h3>
+            <div class="stats">
+              <div class="stat">
+                <small>Loan Amount</small>
+                <strong id="reviewLoanAmount">$0</strong>
+              </div>
+              <div class="stat">
+                <small>Net Margin</small>
+                <strong id="reviewNetMargin">0%</strong>
+              </div>
+              <div class="stat">
+                <small>Estimated DTI</small>
+                <strong id="reviewDti">0%</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-buttons">
+            <button type="button" class="outline-btn" onclick="window.location.href='/'">Back to Home</button>
+            <a href="tel:4073054009" class="call-button primary-btn" id="resultButton">Talk to Monica Now</a>
+          </div>
+        </section>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    let currentStep = 1;
+
+    const moneyFields = [
+      "loanAmount",
+      "personalIncome",
+      "grossAnnualRevenue",
+      "netProfit",
+      "monthlyBusinessLoanPayments",
+      "businessLineOfCreditBalance",
+      "monthlyMortgageRent"
+    ];
+
+    moneyFields.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("input", function () {
+          this.value = formatCurrency(this.value);
+          calculateNetMargin();
+        });
+      }
+    });
+
+    document.getElementById("phone").addEventListener("input", function () {
+      this.value = formatPhone(this.value);
+    });
+
+    document.getElementById("grossAnnualRevenue").addEventListener("input", calculateNetMargin);
+    document.getElementById("netProfit").addEventListener("input", calculateNetMargin);
+
+    function formatCurrency(value) {
+      const numbersOnly = value.replace(/[^\d]/g, "");
+      if (!numbersOnly) return "";
+      return Number(numbersOnly).toLocaleString("en-US");
+    }
+
+    function formatPhone(value) {
+      const digits = value.replace(/\D/g, "").slice(0, 10);
+
+      if (digits.length <= 3) return digits;
+      if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+      return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+    }
+
+    function toNumber(value) {
+      if (!value) return 0;
+      return Number(String(value).replace(/[^\d.-]/g, "")) || 0;
+    }
+
+    function getRadioValue(name) {
+      const selected = document.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : "";
+    }
+
+    function showError(id, show) {
+      const el = document.getElementById(id + "Error");
+      if (el) el.style.display = show ? "block" : "none";
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function isValidPhone(phone) {
+      return phone.replace(/\D/g, "").length === 10;
+    }
+
+    function calculateNetMargin() {
+      const revenue = toNumber(document.getElementById("grossAnnualRevenue").value);
+      const net = toNumber(document.getElementById("netProfit").value);
+      const marginField = document.getElementById("netProfitMargin");
+
+      if (revenue > 0) {
+        marginField.value = ((net / revenue) * 100).toFixed(1);
+      }
+    }
+
+    function validateStep(step) {
+      let valid = true;
+
+      document.querySelectorAll(".error").forEach((e) => {
+        e.style.display = "none";
+      });
+
+      if (step === 1) {
+        const requiredFields = [
+          "loanAmount",
+          "loanPurpose",
+          "industry",
+          "fullName",
+          "streetAddress",
+          "city",
+          "state",
+          "zip"
+        ];
+
+        requiredFields.forEach((id) => {
+          const value = document.getElementById(id).value.trim();
+          if (!value) {
+            showError(id, true);
+            valid = false;
+          }
+        });
+
+        const email = document.getElementById("email").value.trim();
+        if (!email || !isValidEmail(email)) {
+          showError("email", true);
+          valid = false;
+        }
+
+        const phone = document.getElementById("phone").value.trim();
+        if (!phone || !isValidPhone(phone)) {
+          showError("phone", true);
+          valid = false;
+        }
+
+        if (!getRadioValue("fundingTimeline")) {
+          showError("fundingTimeline", true);
+          valid = false;
+        }
+      }
+
+      if (step === 2) {
+        if (!getRadioValue("creditScore")) {
+          showError("creditScore", true);
+          valid = false;
+        }
+
+        if (!document.getElementById("tradelines").value.trim()) {
+          showError("tradelines", true);
+          valid = false;
+        }
+
+        if (!getRadioValue("creditHistory")) {
+          showError("creditHistory", true);
+          valid = false;
+        }
+
+        if (!getRadioValue("latePayments")) {
+          showError("latePayments", true);
+          valid = false;
+        }
+
+        if (!getRadioValue("bankruptcy")) {
+          showError("bankruptcy", true);
+          valid = false;
+        }
+      }
+
+      if (step === 3) {
+        const requiredFields = [
+          "businessName",
+          "businessType",
+          "yearsInBusiness",
+          "businessStructure",
+          "numberOfOwners",
+          "ownershipPercentage",
+          "grossAnnualRevenue",
+          "netProfit",
+          "netProfitMargin"
+        ];
+
+        requiredFields.forEach((id) => {
+          const value = document.getElementById(id).value.trim();
+          if (!value) {
+            showError(id, true);
+            valid = false;
+          }
+        });
+
+        if (!document.getElementById("consent").checked) {
+          showError("consent", true);
+          valid = false;
+        }
+      }
+
+      return valid;
+    }
+
+    function nextStep() {
+      if (!validateStep(currentStep)) return;
+
+      if (currentStep === 3) {
+        buildResults();
+
+        /*
+          Optional n8n / CRM webhook:
+          Replace this URL with your real webhook.
+
+          fetch("https://your-n8n-webhook-url.com/uneedloan-prequal", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(collectFormData())
+          });
+        */
+      }
+
+      currentStep = Math.min(currentStep + 1, 4);
+      updateStep();
+    }
+
+    function previousStep() {
+      currentStep = Math.max(currentStep - 1, 1);
+      updateStep();
+    }
+
+    function updateStep() {
+      document.querySelectorAll(".step").forEach((step) => {
+        step.classList.remove("active");
+      });
+
+      document.querySelector(`[data-step="${currentStep}"]`).classList.add("active");
+      document.getElementById("stepCounter").innerText = `Step ${currentStep} of 4`;
+      document.getElementById("progressFill").style.width = `${currentStep * 25}%`;
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function collectFormData() {
+      return {
+        loanAmount: document.getElementById("loanAmount").value,
+        loanPurpose: document.getElementById("loanPurpose").value,
+        industry: document.getElementById("industry").value,
+        fundingTimeline: getRadioValue("fundingTimeline"),
+
+        fullName: document.getElementById("fullName").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        streetAddress: document.getElementById("streetAddress").value,
+        city: document.getElementById("city").value,
+        state: document.getElementById("state").value,
+        zip: document.getElementById("zip").value,
+
+        creditScore: getRadioValue("creditScore"),
+        tradelines: document.getElementById("tradelines").value,
+        creditHistory: getRadioValue("creditHistory"),
+        latePayments: getRadioValue("latePayments"),
+        bankruptcy: getRadioValue("bankruptcy"),
+        personalIncome: document.getElementById("personalIncome").value,
+
+        businessName: document.getElementById("businessName").value,
+        businessType: document.getElementById("businessType").value,
+        yearsInBusiness: document.getElementById("yearsInBusiness").value,
+        businessStructure: document.getElementById("businessStructure").value,
+        numberOfOwners: document.getElementById("numberOfOwners").value,
+        ownershipPercentage: document.getElementById("ownershipPercentage").value,
+
+        grossAnnualRevenue: document.getElementById("grossAnnualRevenue").value,
+        netProfit: document.getElementById("netProfit").value,
+        netProfitMargin: document.getElementById("netProfitMargin").value,
+
+        monthlyBusinessLoanPayments: document.getElementById("monthlyBusinessLoanPayments").value,
+        businessLineOfCreditBalance: document.getElementById("businessLineOfCreditBalance").value,
+        equipmentFinancing: getRadioValue("equipmentFinancing"),
+        monthlyMortgageRent: document.getElementById("monthlyMortgageRent").value,
+
+        submittedAt: new Date().toISOString(),
+        source: "uneedloan-prequal-form"
+      };
+    }
+
+    function buildResults() {
+      const data = collectFormData();
+
+      const gaps = [];
+
+      const tradelines = toNumber(data.tradelines);
+      const personalIncome = toNumber(data.personalIncome);
+      const revenue = toNumber(data.grossAnnualRevenue);
+      const netProfit = toNumber(data.netProfit);
+      const yearsInBusiness = toNumber(data.yearsInBusiness);
+      const netMargin = toNumber(data.netProfitMargin);
+      const monthlyBusinessLoanPayments = toNumber(data.monthlyBusinessLoanPayments);
+      const monthlyMortgageRent = toNumber(data.monthlyMortgageRent);
+
+      const estimatedMonthlyIncome = (personalIncome + netProfit) / 12;
+      const totalMonthlyDebt = monthlyBusinessLoanPayments + monthlyMortgageRent;
+      const dti = estimatedMonthlyIncome > 0 ? (totalMonthlyDebt / estimatedMonthlyIncome) * 100 : 0;
+
+      const hasGoodCredit =
+        data.creditScore === "700 or higher" ||
+        data.creditScore === "680-699" ||
+        (tradelines >= 2 && (data.creditHistory === "5-10 years" || data.creditHistory === "10+ years"));
+
+      if (!hasGoodCredit) {
+        gaps.push("Credit profile may need review.");
+      }
+
+      if (tradelines < 2 && data.creditHistory !== "10+ years") {
+        gaps.push("Less than 2 active tradelines or limited established credit history.");
+      }
+
+      if (data.latePayments === "Yes") {
+        gaps.push("Recent late payments in the last 24 months.");
+      }
+
+      if (data.bankruptcy === "Yes") {
+        gaps.push("Bankruptcy or foreclosure record needs review.");
+      }
+
+      const incomeQualified =
+        personalIncome >= 75000 ||
+        revenue >= 200000 ||
+        personalIncome + revenue >= 150000;
+
+      if (!incomeQualified) {
+        gaps.push("Income or business revenue may need additional support.");
+      }
+
+      const isStartupLoan = data.industry === "Tech / Startup";
+
+      if (!isStartupLoan && yearsInBusiness < 1) {
+        gaps.push("Business has less than 1 year of operating history.");
+      }
+
+      if (netMargin < 20) {
+        gaps.push("Net profit margin is below the preferred 20% benchmark.");
+      }
+
+      if (dti >= 50) {
+        gaps.push("Debt-to-income ratio may be above preferred range.");
+      }
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultMessage = document.getElementById("resultMessage");
+      const resultButton = document.getElementById("resultButton");
+      const resultIcon = document.getElementById("resultIcon");
+
+      resultTitle.classList.remove("green", "orange");
+
+      if (gaps.length === 0) {
+        resultIcon.innerText = "✓";
+        resultTitle.innerText = "You're Pre-Qualified!";
+        resultTitle.classList.add("green");
+        resultMessage.innerText =
+          "Great news! You qualify for our lending programs. Monica or a consultant will reach out within 24 hours to discuss your options.";
+        resultButton.innerText = "Talk to Monica Now";
+      } else if (gaps.length <= 2) {
+        resultIcon.innerText = "✓";
+        resultTitle.innerText = "You May Still Qualify";
+        resultTitle.classList.add("orange");
+        resultMessage.innerText =
+          "You have a few gaps, but that does not mean no. We have programs for your exact situation. Let's talk.";
+        resultButton.innerText = "Call Monica to Discuss";
+      } else {
+        resultIcon.innerText = "!";
+        resultTitle.innerText = "Let's Discuss Your Options";
+        resultTitle.classList.add("orange");
+        resultMessage.innerText =
+          "Your profile has a few items that need review, but Uneedloan does not use templates. Monica or a consultant can help review programs for your exact situation.";
+        resultButton.innerText = "Call Monica to Discuss";
+      }
+
+      document.getElementById("reviewName").innerText = data.fullName;
+      document.getElementById("reviewPhone").innerText = data.phone;
+      document.getElementById("reviewEmail").innerText = data.email;
+      document.getElementById("reviewLoanAmount").innerText = "$" + (data.loanAmount || "0");
+      document.getElementById("reviewNetMargin").innerText = `${netMargin.toFixed(1)}%`;
+      document.getElementById("reviewDti").innerText = `${Number.isFinite(dti) ? dti.toFixed(1) : "0.0"}%`;
+
+      const gapsBox = document.getElementById("gapsBox");
+      const gapsList = document.getElementById("gapsList");
+      gapsList.innerHTML = "";
+
+      if (gaps.length > 0) {
+        gapsBox.style.display = "block";
+        gaps.forEach((gap) => {
+          const li = document.createElement("li");
+          li.innerText = gap;
+          gapsList.appendChild(li);
+        });
+      } else {
+        gapsBox.style.display = "none";
+      }
+
+      console.log("Form data ready for CRM/n8n:", {
+        ...data,
+        resultGaps: gaps,
+        estimatedDti: Number.isFinite(dti) ? dti.toFixed(1) : "0.0",
+        resultStatus:
+          gaps.length === 0
+            ? "Pre-Qualified"
+            : gaps.length <= 2
+              ? "May Still Qualify"
+              : "Discuss Options"
+      });
+    }
+  </script>
+</body>
+</html>
